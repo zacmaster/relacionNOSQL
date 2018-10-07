@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    
+    <script>
+
+//         {
+//     "alumnos": [
+//         {
+//             "id":1,
+//             "name": "Zacarías"
+//         },
+//         {
+//             "id":2,
+//             "name": "Jorge"
+//         }
+//     ],
+//     "contactos": [
+//         {
+//             "id": 1,
+//             "fecha": "22/08/14" 
+//         }
+//     ],
+//     "contactosAlumnos": [
+//         {
+//          "id": 1,
+//          "idContacto": 1,
+//          "idAlumnos":[
+//              1
+//          ]   
+//         }
+//     ]
+// }
+
+
+
+        var objeto;
+        var idsAlumnos;
+        var idContacto;
+
+        var contactosAlumnos;
+        var alumnos;
+        var contactos;
+        fetch('http://localhost:3000/contactosAlumnos')
+            .then(e => {
+                return e.json()
+            }).then( r => { contactosAlumnos = r});
+        
+        fetch('http://localhost:3000/alumnos')
+        .then(e => {
+            return e.json()
+        }).then( r => { alumnos = r});
+
+        fetch('http://localhost:3000/contactos')
+        .then(e => {
+            return e.json()
+        }).then( r => { contactos = r});
+
+        var intervalo  = setInterval(() => {
+            if( contactos != undefined &&
+                contactosAlumnos != undefined &&
+                alumnos != undefined)
+
+                clearInterval(intervalo);
+            console.log(alumnos);
+            console.log(contactosAlumnos);
+            console.log(contactos);
+            
+            alumnoEnContacto(1,1)
+            
+
+        },500)
+
+        function alumnoEnContacto(idAlumno, idContacto){
+            var alumno;
+            var fechaContacto;
+            alumnos.forEach(element => {
+                if(element.id == idAlumno)
+                    alumno = element.name
+            });
+
+            contactos.forEach(e =>{
+                if(e.id == idContacto)
+                    fechaContacto = e.fecha;
+            })
+
+            console.log(`${alumno} se inscribió el día ${fechaContacto}`);
+            
+        }
+
+    </script>
+</body>
+</html>
